@@ -26,4 +26,15 @@ public class AppointmentTest {
 		assertThat(appointment)
 			.isEqualTo(sameAppointment);
 	}
+
+	@Test
+	public void testHashCode() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		Appointment sameAppointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+
+		assertThat(appointment.hashCode())
+			.isEqualTo(sameAppointment.hashCode());
+	}
 }

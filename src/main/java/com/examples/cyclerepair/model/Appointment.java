@@ -1,5 +1,7 @@
 package com.examples.cyclerepair.model;
 
+import java.util.Objects;
+
 public class Appointment {
 
 	private String id;
@@ -15,6 +17,25 @@ public class Appointment {
 		this.cycleModel = cycleModel;
 		this.repairIssue = repairIssue;
 		this.appointmentDate = appointmentDate;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Appointment other = (Appointment) obj;
+		return Objects.equals(id, other.id)
+				&& Objects.equals(customerName, other.customerName)
+				&& Objects.equals(cycleModel, other.cycleModel)
+				&& Objects.equals(repairIssue, other.repairIssue)
+				&& Objects.equals(appointmentDate, other.appointmentDate);
 	}
 
 	@Override

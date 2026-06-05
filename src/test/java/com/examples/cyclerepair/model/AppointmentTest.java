@@ -15,4 +15,15 @@ public class AppointmentTest {
 			.isEqualTo("Appointment [id=1, customerName=Mario Rossi, cycleModel=Road Bike, "
 					+ "repairIssue=Brake adjustment, appointmentDate=2026-06-10]");
 	}
+
+	@Test
+	public void testEquals() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		Appointment sameAppointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+
+		assertThat(appointment)
+			.isEqualTo(sameAppointment);
+	}
 }

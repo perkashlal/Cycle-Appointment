@@ -14,6 +14,6 @@ public class CycleRepairController {
 	}
 
 	public void allAppointments() {
-
+		appointmentView.showAllAppointments(appointmentRepository.findAll());
 	}
 }

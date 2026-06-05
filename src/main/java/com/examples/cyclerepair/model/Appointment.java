@@ -20,6 +20,11 @@ public class Appointment {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(id, customerName, cycleModel, repairIssue, appointmentDate);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;

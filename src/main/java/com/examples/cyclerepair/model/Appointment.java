@@ -23,6 +23,22 @@ public class Appointment {
 		return id;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public String getCycleModel() {
+		return cycleModel;
+	}
+
+	public String getRepairIssue() {
+		return repairIssue;
+	}
+
+	public String getAppointmentDate() {
+		return appointmentDate;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, customerName, cycleModel, repairIssue, appointmentDate);

@@ -45,7 +45,13 @@ public class AppointmentMongoRepository implements AppointmentRepository {
 
 	@Override
 	public void save(Appointment appointment) {
-
+		appointmentCollection.insertOne(
+			new Document()
+				.append("id", appointment.getId())
+				.append("customerName", appointment.getCustomerName())
+				.append("cycleModel", appointment.getCycleModel())
+				.append("repairIssue", appointment.getRepairIssue())
+				.append("appointmentDate", appointment.getAppointmentDate()));
 	}
 
 	@Override

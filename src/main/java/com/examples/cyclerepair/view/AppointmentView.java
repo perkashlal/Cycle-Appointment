@@ -8,6 +8,8 @@ public interface AppointmentView {
 
 	void showAllAppointments(List<Appointment> appointments);
 
+	void showError(String message, Appointment appointment);
+
 	void appointmentAdded(Appointment appointment);
 
 }

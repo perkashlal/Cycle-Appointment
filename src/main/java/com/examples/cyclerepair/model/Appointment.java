@@ -19,6 +19,10 @@ public class Appointment {
 		this.appointmentDate = appointmentDate;
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, customerName, cycleModel, repairIssue, appointmentDate);

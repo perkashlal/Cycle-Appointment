@@ -19,9 +19,14 @@ public class CycleRepairController {
 	}
 
 	public void newAppointment(Appointment appointment) {
-		if (appointmentRepository.findById(appointment.getId()) == null) {
-			appointmentRepository.save(appointment);
-			appointmentView.appointmentAdded(appointment);
+		Appointment existingAppointment = appointmentRepository.findById(appointment.getId());
+		if (existingAppointment != null) {
+			appointmentView.showError("Already existing appointment with id " + appointment.getId(),
+					existingAppointment);
+			return;
 		}
+
+		appointmentRepository.save(appointment);
+		appointmentView.appointmentAdded(appointment);
 	}
 }

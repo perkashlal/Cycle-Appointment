@@ -1,20 +1,37 @@
 package com.examples.cyclerepair.repository.mongo;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.bson.Document;
 
 import com.examples.cyclerepair.model.Appointment;
 import com.examples.cyclerepair.repository.AppointmentRepository;
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
 
 public class AppointmentMongoRepository implements AppointmentRepository {
 
-	public AppointmentMongoRepository(MongoClient client, String databaseName, String collectionName) {
+	private MongoCollection<Document> appointmentCollection;
 
+	public AppointmentMongoRepository(MongoClient client, String databaseName, String collectionName) {
+		appointmentCollection = client
+			.getDatabase(databaseName)
+			.getCollection(collectionName);
 	}
 
 	@Override
 	public List<Appointment> findAll() {
-		return null;
+		return StreamSupport.
+				stream(appointmentCollection.find().spliterator(), false)
+				.map(this::fromDocumentToAppointment)
+				.collect(Collectors.toList());
+	}
+
+	private Appointment fromDocumentToAppointment(Document d) {
+		return new Appointment(""+d.get("id"), ""+d.get("customerName"),
+				""+d.get("cycleModel"), ""+d.get("repairIssue"), ""+d.get("appointmentDate"));
 	}
 
 	@Override

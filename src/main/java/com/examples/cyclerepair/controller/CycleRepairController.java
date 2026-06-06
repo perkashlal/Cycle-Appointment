@@ -31,9 +31,13 @@ public class CycleRepairController {
 	}
 
 	public void deleteAppointment(Appointment appointment) {
-		if (appointmentRepository.findById(appointment.getId()) != null) {
-			appointmentRepository.delete(appointment.getId());
-			appointmentView.appointmentRemoved(appointment);
+		if (appointmentRepository.findById(appointment.getId()) == null) {
+			appointmentView.showErrorAppointmentNotFound(
+					"No existing appointment with id " + appointment.getId(), appointment);
+			return;
 		}
+
+		appointmentRepository.delete(appointment.getId());
+		appointmentView.appointmentRemoved(appointment);
 	}
 }

@@ -31,6 +31,9 @@ public class CycleRepairController {
 	}
 
 	public void deleteAppointment(Appointment appointment) {
-
+		if (appointmentRepository.findById(appointment.getId()) != null) {
+			appointmentRepository.delete(appointment.getId());
+			appointmentView.appointmentRemoved(appointment);
+		}
 	}
 }

@@ -80,4 +80,16 @@ public class CycleRepairControllerTest {
 			.showError("Already existing appointment with id 1", existingAppointment);
 		verifyNoMoreInteractions(ignoreStubs(appointmentRepository));
 	}
+
+	@Test
+	public void testDeleteAppointmentWhenAppointmentExists() {
+		Appointment appointmentToDelete = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		when(appointmentRepository.findById("1"))
+			.thenReturn(appointmentToDelete);
+		cycleRepairController.deleteAppointment(appointmentToDelete);
+		InOrder inOrder = inOrder(appointmentRepository, appointmentView);
+		inOrder.verify(appointmentRepository).delete("1");
+		inOrder.verify(appointmentView).appointmentRemoved(appointmentToDelete);
+	}
 }

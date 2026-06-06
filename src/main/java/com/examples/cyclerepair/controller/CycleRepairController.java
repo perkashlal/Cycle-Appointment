@@ -29,4 +29,8 @@ public class CycleRepairController {
 		appointmentRepository.save(appointment);
 		appointmentView.appointmentAdded(appointment);
 	}
+
+	public void deleteAppointment(Appointment appointment) {
+
+	}
 }

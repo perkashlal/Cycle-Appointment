@@ -10,4 +10,6 @@ public interface AppointmentRepository {
 	public Appointment findById(String id);
 
 	public void save(Appointment appointment);
+
+	public void delete(String id);
 }

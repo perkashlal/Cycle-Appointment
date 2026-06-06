@@ -12,4 +12,6 @@ public interface AppointmentView {
 
 	void appointmentAdded(Appointment appointment);
 
+	void appointmentRemoved(Appointment appointment);
+
 }

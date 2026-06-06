@@ -14,4 +14,6 @@ public interface AppointmentView {
 
 	void appointmentRemoved(Appointment appointment);
 
+	void showErrorAppointmentNotFound(String message, Appointment appointment);
+
 }

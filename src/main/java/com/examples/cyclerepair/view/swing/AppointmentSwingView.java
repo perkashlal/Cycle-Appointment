@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -69,6 +71,19 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 		contentPane.add(lblId, gbc_lblId);
 
 		txtId = new JTextField();
+		KeyAdapter btnAddEnabler = new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				btnAdd.setEnabled(
+					!txtId.getText().trim().isEmpty() &&
+					!txtCustomerName.getText().trim().isEmpty() &&
+					!txtCycleModel.getText().trim().isEmpty() &&
+					!txtRepairIssue.getText().trim().isEmpty() &&
+					!txtAppointmentDate.getText().trim().isEmpty()
+				);
+			}
+		};
+		txtId.addKeyListener(btnAddEnabler);
 		txtId.setName("idTextBox");
 		GridBagConstraints gbc_idTextField = new GridBagConstraints();
 		gbc_idTextField.insets = new Insets(0, 0, 5, 0);
@@ -87,6 +102,7 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 		contentPane.add(lblCustomerName, gbc_lblCustomerName);
 
 		txtCustomerName = new JTextField();
+		txtCustomerName.addKeyListener(btnAddEnabler);
 		txtCustomerName.setName("customerNameTextBox");
 		GridBagConstraints gbc_customerNameTextField = new GridBagConstraints();
 		gbc_customerNameTextField.insets = new Insets(0, 0, 5, 0);
@@ -105,6 +121,7 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 		contentPane.add(lblCycleModel, gbc_lblCycleModel);
 
 		txtCycleModel = new JTextField();
+		txtCycleModel.addKeyListener(btnAddEnabler);
 		txtCycleModel.setName("cycleModelTextBox");
 		GridBagConstraints gbc_cycleModelTextField = new GridBagConstraints();
 		gbc_cycleModelTextField.insets = new Insets(0, 0, 5, 0);
@@ -123,6 +140,7 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 		contentPane.add(lblRepairIssue, gbc_lblRepairIssue);
 
 		txtRepairIssue = new JTextField();
+		txtRepairIssue.addKeyListener(btnAddEnabler);
 		txtRepairIssue.setName("repairIssueTextBox");
 		GridBagConstraints gbc_repairIssueTextField = new GridBagConstraints();
 		gbc_repairIssueTextField.insets = new Insets(0, 0, 5, 0);
@@ -141,6 +159,7 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 		contentPane.add(lblAppointmentDate, gbc_lblAppointmentDate);
 
 		txtAppointmentDate = new JTextField();
+		txtAppointmentDate.addKeyListener(btnAddEnabler);
 		txtAppointmentDate.setName("appointmentDateTextBox");
 		GridBagConstraints gbc_appointmentDateTextField = new GridBagConstraints();
 		gbc_appointmentDateTextField.insets = new Insets(0, 0, 5, 0);

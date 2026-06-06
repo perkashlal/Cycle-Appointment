@@ -56,6 +56,6 @@ public class AppointmentMongoRepository implements AppointmentRepository {
 
 	@Override
 	public void delete(String id) {
-
+		appointmentCollection.deleteOne(Filters.eq("id", id));
 	}
 }

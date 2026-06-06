@@ -1,5 +1,9 @@
 package com.examples.cyclerepair.view.swing;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Arrays;
+
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
@@ -14,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.examples.cyclerepair.controller.CycleRepairController;
+import com.examples.cyclerepair.model.Appointment;
 
 @RunWith(GUITestRunner.class)
 public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
@@ -77,5 +82,22 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		appointmentDateTextBox.enterText("2026-06-10");
 
 		window.button(JButtonMatcher.withText("Add")).requireEnabled();
+	}
+
+	@Test
+	public void testsShowAllAppointmentsShouldAddAppointmentDescriptionsToTheList() {
+		Appointment appointment1 = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		Appointment appointment2 = new Appointment("2", "Luigi Bianchi", "City Bike",
+				"Flat tyre", "2026-06-11");
+		GuiActionRunner.execute(
+			() -> appointmentSwingView.showAllAppointments(
+					Arrays.asList(appointment1, appointment2))
+		);
+		String[] listContents = window.list().contents();
+		assertThat(listContents)
+			.containsExactly(
+					"1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10",
+					"2 - Luigi Bianchi - City Bike - Flat tyre - 2026-06-11");
 	}
 }

@@ -10,6 +10,7 @@ import com.examples.cyclerepair.model.Appointment;
 import com.examples.cyclerepair.repository.AppointmentRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 
 public class AppointmentMongoRepository implements AppointmentRepository {
 
@@ -36,6 +37,9 @@ public class AppointmentMongoRepository implements AppointmentRepository {
 
 	@Override
 	public Appointment findById(String id) {
+		Document d = appointmentCollection.find(Filters.eq("id", id)).first();
+		if (d != null)
+			return fromDocumentToAppointment(d);
 		return null;
 	}
 

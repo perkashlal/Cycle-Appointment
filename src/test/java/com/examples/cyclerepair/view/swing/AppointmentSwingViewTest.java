@@ -5,6 +5,7 @@ import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.fixture.JTextComponentFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Test;
@@ -59,5 +60,22 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("appointmentList");
 		window.button(JButtonMatcher.withText("Delete Selected")).requireDisabled();
 		window.label("errorMessageLabel").requireText(" ");
+	}
+
+	@Test
+	public void testWhenAllFieldsAreNonEmptyThenAddButtonShouldBeEnabled() {
+		JTextComponentFixture idTextBox = window.textBox("idTextBox");
+		JTextComponentFixture customerNameTextBox = window.textBox("customerNameTextBox");
+		JTextComponentFixture cycleModelTextBox = window.textBox("cycleModelTextBox");
+		JTextComponentFixture repairIssueTextBox = window.textBox("repairIssueTextBox");
+		JTextComponentFixture appointmentDateTextBox = window.textBox("appointmentDateTextBox");
+
+		idTextBox.enterText("1");
+		customerNameTextBox.enterText("Mario Rossi");
+		cycleModelTextBox.enterText("Road Bike");
+		repairIssueTextBox.enterText("Brake adjustment");
+		appointmentDateTextBox.enterText("2026-06-10");
+
+		window.button(JButtonMatcher.withText("Add")).requireEnabled();
 	}
 }

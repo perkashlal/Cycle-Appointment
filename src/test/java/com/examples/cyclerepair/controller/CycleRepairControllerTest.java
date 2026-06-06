@@ -1,6 +1,7 @@
 package com.examples.cyclerepair.controller;
 
 import static java.util.Arrays.asList;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -49,5 +51,17 @@ public class CycleRepairControllerTest {
 		cycleRepairController.allAppointments();
 		verify(appointmentView)
 			.showAllAppointments(appointments);
+	}
+
+	@Test
+	public void testNewAppointmentWhenAppointmentDoesNotAlreadyExist() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		when(appointmentRepository.findById("1"))
+			.thenReturn(null);
+		cycleRepairController.newAppointment(appointment);
+		InOrder inOrder = inOrder(appointmentRepository, appointmentView);
+		inOrder.verify(appointmentRepository).save(appointment);
+		inOrder.verify(appointmentView).appointmentAdded(appointment);
 	}
 }

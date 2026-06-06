@@ -101,6 +101,15 @@ public class AppointmentMongoRepositoryTest {
 			.containsExactly(appointment);
 	}
 
+	@Test
+	public void testDelete() {
+		addTestAppointmentToDatabase("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		appointmentRepository.delete("1");
+		assertThat(readAllAppointmentsFromDatabase())
+			.isEmpty();
+	}
+
 	private void addTestAppointmentToDatabase(String id, String customerName, String cycleModel,
 			String repairIssue, String appointmentDate) {
 		appointmentCollection.insertOne(

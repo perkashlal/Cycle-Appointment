@@ -78,6 +78,17 @@ public class AppointmentMongoRepositoryTest {
 						"Flat tyre", "2026-06-11"));
 	}
 
+	@Test
+	public void testFindByIdFound() {
+		addTestAppointmentToDatabase("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		addTestAppointmentToDatabase("2", "Luigi Bianchi", "City Bike",
+				"Flat tyre", "2026-06-11");
+		assertThat(appointmentRepository.findById("2"))
+			.isEqualTo(new Appointment("2", "Luigi Bianchi", "City Bike",
+					"Flat tyre", "2026-06-11"));
+	}
+
 	private void addTestAppointmentToDatabase(String id, String customerName, String cycleModel,
 			String repairIssue, String appointmentDate) {
 		appointmentCollection.insertOne(

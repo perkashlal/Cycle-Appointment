@@ -100,4 +100,15 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 					"1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10",
 					"2 - Luigi Bianchi - City Bike - Flat tyre - 2026-06-11");
 	}
+
+	@Test
+	public void testShowErrorShouldShowTheMessageInTheErrorLabel() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		GuiActionRunner.execute(
+			() -> appointmentSwingView.showError("error message", appointment)
+		);
+		window.label("errorMessageLabel")
+			.requireText("error message: 1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10");
+	}
 }

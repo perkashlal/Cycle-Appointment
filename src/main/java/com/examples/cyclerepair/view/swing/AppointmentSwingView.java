@@ -233,6 +233,7 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	@Override
 	public void showError(String message, Appointment appointment) {
+		lblErrorMessage.setText(message + ": " + getDisplayString(appointment));
 	}
 
 	@Override

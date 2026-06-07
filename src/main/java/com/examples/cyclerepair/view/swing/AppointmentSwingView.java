@@ -1,6 +1,7 @@
 package com.examples.cyclerepair.view.swing;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -189,6 +191,18 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 		listAppointmentsModel = new DefaultListModel<>();
 		listAppointments = new JList<>(listAppointmentsModel);
+		listAppointments.setCellRenderer(new DefaultListCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				Appointment appointment = (Appointment) value;
+				return super.getListCellRendererComponent(list,
+					getDisplayString(appointment),
+					index, isSelected, cellHasFocus);
+			}
+		});
 		listAppointments.setName("appointmentList");
 		scrollPane.setViewportView(listAppointments);
 
@@ -214,6 +228,7 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	@Override
 	public void showAllAppointments(List<Appointment> appointments) {
+		appointments.stream().forEach(listAppointmentsModel::addElement);
 	}
 
 	@Override
@@ -230,5 +245,11 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	@Override
 	public void showErrorAppointmentNotFound(String message, Appointment appointment) {
+	}
+
+	private String getDisplayString(Appointment appointment) {
+		return appointment.getId() + " - " + appointment.getCustomerName() + " - "
+				+ appointment.getCycleModel() + " - " + appointment.getRepairIssue() + " - "
+				+ appointment.getAppointmentDate();
 	}
 }

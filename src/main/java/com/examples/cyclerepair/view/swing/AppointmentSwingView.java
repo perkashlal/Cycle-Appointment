@@ -216,6 +216,8 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 		btnDeleteSelected = new JButton("Delete Selected");
 		btnDeleteSelected.setEnabled(false);
+		btnDeleteSelected.addActionListener(
+				e -> cycleRepairController.deleteAppointment(listAppointments.getSelectedValue()));
 		GridBagConstraints gbc_btnDeleteSelected = new GridBagConstraints();
 		gbc_btnDeleteSelected.insets = new Insets(0, 0, 5, 0);
 		gbc_btnDeleteSelected.gridwidth = 2;

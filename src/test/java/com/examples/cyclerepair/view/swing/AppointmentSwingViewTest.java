@@ -9,6 +9,7 @@ import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.fixture.JButtonFixture;
 import org.assertj.swing.fixture.JTextComponentFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
@@ -150,6 +151,20 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		repairIssueTextBox.enterText("Brake adjustment");
 		appointmentDateTextBox.enterText(" ");
 		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+	}
+
+	@Test
+	public void testDeleteButtonShouldBeEnabledOnlyWhenAnAppointmentIsSelected() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		GuiActionRunner.execute(
+			() -> appointmentSwingView.showAllAppointments(Arrays.asList(appointment))
+		);
+		window.list("appointmentList").selectItem(0);
+		JButtonFixture deleteButton = window.button(JButtonMatcher.withText("Delete Selected"));
+		deleteButton.requireEnabled();
+		window.list("appointmentList").clearSelection();
+		deleteButton.requireDisabled();
 	}
 
 	@Test

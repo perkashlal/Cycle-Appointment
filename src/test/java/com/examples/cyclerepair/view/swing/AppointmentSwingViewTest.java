@@ -111,4 +111,23 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.label("errorMessageLabel")
 			.requireText("error message: 1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10");
 	}
+
+	@Test
+	public void testShowErrorAppointmentNotFound() {
+		Appointment appointment1 = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		Appointment appointment2 = new Appointment("2", "Luigi Bianchi", "City Bike",
+				"Flat tyre", "2026-06-11");
+		GuiActionRunner.execute(
+			() -> appointmentSwingView.showAllAppointments(
+					Arrays.asList(appointment1, appointment2))
+		);
+		GuiActionRunner.execute(
+			() -> appointmentSwingView.showErrorAppointmentNotFound("error message", appointment1)
+		);
+		window.label("errorMessageLabel")
+			.requireText("error message: 1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10");
+		assertThat(window.list().contents())
+			.containsExactly("2 - Luigi Bianchi - City Bike - Flat tyre - 2026-06-11");
+	}
 }

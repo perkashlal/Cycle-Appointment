@@ -82,6 +82,12 @@ public class AppointmentMongoRepositoryTest {
 	}
 
 	@Test
+	public void testFindByIdNotFound() {
+		assertThat(appointmentRepository.findById("1"))
+			.isNull();
+	}
+
+	@Test
 	public void testFindByIdFound() {
 		addTestAppointmentToDatabase("1", "Mario Rossi", "Road Bike",
 				"Brake adjustment", "2026-06-10");

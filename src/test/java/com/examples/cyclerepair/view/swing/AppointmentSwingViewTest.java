@@ -258,4 +258,19 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		verify(cycleRepairController).newAppointment(new Appointment("1", "Mario Rossi",
 				"Road Bike", "Brake adjustment", "2026-06-10"));
 	}
+
+	@Test
+	public void testDeleteButtonShouldDelegateToCycleRepairControllerDeleteAppointment() {
+		Appointment appointment1 = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		Appointment appointment2 = new Appointment("2", "Luigi Bianchi", "City Bike",
+				"Flat tyre", "2026-06-11");
+		GuiActionRunner.execute(
+			() -> appointmentSwingView.showAllAppointments(
+					Arrays.asList(appointment1, appointment2))
+		);
+		window.list("appointmentList").selectItem(1);
+		window.button(JButtonMatcher.withText("Delete Selected")).click();
+		verify(cycleRepairController).deleteAppointment(appointment2);
+	}
 }

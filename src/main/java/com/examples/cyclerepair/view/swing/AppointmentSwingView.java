@@ -18,6 +18,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -203,6 +204,9 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 					index, isSelected, cellHasFocus);
 			}
 		});
+		listAppointments.addListSelectionListener(
+				e -> btnDeleteSelected.setEnabled(listAppointments.getSelectedIndex() != -1));
+		listAppointments.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listAppointments.setName("appointmentList");
 		scrollPane.setViewportView(listAppointments);
 

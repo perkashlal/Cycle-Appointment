@@ -246,6 +246,8 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	@Override
 	public void showErrorAppointmentNotFound(String message, Appointment appointment) {
+		lblErrorMessage.setText(message + ": " + getDisplayString(appointment));
+		listAppointmentsModel.removeElement(appointment);
 	}
 
 	private String getDisplayString(Appointment appointment) {

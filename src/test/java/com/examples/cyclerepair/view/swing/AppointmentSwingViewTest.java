@@ -1,6 +1,7 @@
 package com.examples.cyclerepair.view.swing;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 
@@ -244,5 +245,17 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		assertThat(listContents)
 			.containsExactly("2 - Luigi Bianchi - City Bike - Flat tyre - 2026-06-11");
 		window.label("errorMessageLabel").requireText(" ");
+	}
+
+	@Test
+	public void testAddButtonShouldDelegateToCycleRepairControllerNewAppointment() {
+		window.textBox("idTextBox").enterText("1");
+		window.textBox("customerNameTextBox").enterText("Mario Rossi");
+		window.textBox("cycleModelTextBox").enterText("Road Bike");
+		window.textBox("repairIssueTextBox").enterText("Brake adjustment");
+		window.textBox("appointmentDateTextBox").enterText("2026-06-10");
+		window.button(JButtonMatcher.withText("Add")).click();
+		verify(cycleRepairController).newAppointment(new Appointment("1", "Mario Rossi",
+				"Road Bike", "Brake adjustment", "2026-06-10"));
 	}
 }

@@ -174,6 +174,10 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 		btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
+		btnAdd.addActionListener(
+				e -> cycleRepairController.newAppointment(new Appointment(txtId.getText(),
+						txtCustomerName.getText(), txtCycleModel.getText(),
+						txtRepairIssue.getText(), txtAppointmentDate.getText())));
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 		gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAdd.gridwidth = 2;

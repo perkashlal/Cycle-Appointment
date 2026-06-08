@@ -130,4 +130,17 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		assertThat(window.list().contents())
 			.containsExactly("2 - Luigi Bianchi - City Bike - Flat tyre - 2026-06-11");
 	}
+
+	@Test
+	public void testAppointmentAddedShouldAddTheAppointmentToTheListAndResetTheErrorLabel() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		GuiActionRunner.execute(
+				() -> appointmentSwingView.appointmentAdded(appointment)
+				);
+		String[] listContents = window.list().contents();
+		assertThat(listContents)
+			.containsExactly("1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10");
+		window.label("errorMessageLabel").requireText(" ");
+	}
 }

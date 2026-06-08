@@ -244,6 +244,8 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	@Override
 	public void appointmentRemoved(Appointment appointment) {
+		listAppointmentsModel.removeElement(appointment);
+		resetErrorLabel();
 	}
 
 	@Override

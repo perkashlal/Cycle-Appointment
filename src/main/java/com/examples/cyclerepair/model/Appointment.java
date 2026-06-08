@@ -10,6 +10,10 @@ public class Appointment {
 	private String repairIssue;
 	private String appointmentDate;
 
+	public Appointment() {
+
+	}
+
 	public Appointment(String id, String customerName, String cycleModel, String repairIssue,
 			String appointmentDate) {
 		this.id = id;
@@ -23,20 +27,40 @@ public class Appointment {
 		return id;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getCustomerName() {
 		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 	public String getCycleModel() {
 		return cycleModel;
 	}
 
+	public void setCycleModel(String cycleModel) {
+		this.cycleModel = cycleModel;
+	}
+
 	public String getRepairIssue() {
 		return repairIssue;
 	}
 
+	public void setRepairIssue(String repairIssue) {
+		this.repairIssue = repairIssue;
+	}
+
 	public String getAppointmentDate() {
 		return appointmentDate;
+	}
+
+	public void setAppointmentDate(String appointmentDate) {
+		this.appointmentDate = appointmentDate;
 	}
 
 	@Override

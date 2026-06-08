@@ -238,6 +238,8 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	@Override
 	public void appointmentAdded(Appointment appointment) {
+		listAppointmentsModel.addElement(appointment);
+		resetErrorLabel();
 	}
 
 	@Override
@@ -254,5 +256,9 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 		return appointment.getId() + " - " + appointment.getCustomerName() + " - "
 				+ appointment.getCycleModel() + " - " + appointment.getRepairIssue() + " - "
 				+ appointment.getAppointmentDate();
+	}
+
+	private void resetErrorLabel() {
+		lblErrorMessage.setText(" ");
 	}
 }

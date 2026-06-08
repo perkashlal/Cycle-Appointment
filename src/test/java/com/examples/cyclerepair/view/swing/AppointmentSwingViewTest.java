@@ -85,6 +85,74 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 
 	@Test
+	public void testWhenAnyFieldIsBlankThenAddButtonShouldBeDisabled() {
+		JTextComponentFixture idTextBox = window.textBox("idTextBox");
+		JTextComponentFixture customerNameTextBox = window.textBox("customerNameTextBox");
+		JTextComponentFixture cycleModelTextBox = window.textBox("cycleModelTextBox");
+		JTextComponentFixture repairIssueTextBox = window.textBox("repairIssueTextBox");
+		JTextComponentFixture appointmentDateTextBox = window.textBox("appointmentDateTextBox");
+
+		idTextBox.enterText(" ");
+		customerNameTextBox.enterText("Mario Rossi");
+		cycleModelTextBox.enterText("Road Bike");
+		repairIssueTextBox.enterText("Brake adjustment");
+		appointmentDateTextBox.enterText("2026-06-10");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+
+		idTextBox.setText("");
+		customerNameTextBox.setText("");
+		cycleModelTextBox.setText("");
+		repairIssueTextBox.setText("");
+		appointmentDateTextBox.setText("");
+
+		idTextBox.enterText("1");
+		customerNameTextBox.enterText(" ");
+		cycleModelTextBox.enterText("Road Bike");
+		repairIssueTextBox.enterText("Brake adjustment");
+		appointmentDateTextBox.enterText("2026-06-10");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+
+		idTextBox.setText("");
+		customerNameTextBox.setText("");
+		cycleModelTextBox.setText("");
+		repairIssueTextBox.setText("");
+		appointmentDateTextBox.setText("");
+
+		idTextBox.enterText("1");
+		customerNameTextBox.enterText("Mario Rossi");
+		cycleModelTextBox.enterText(" ");
+		repairIssueTextBox.enterText("Brake adjustment");
+		appointmentDateTextBox.enterText("2026-06-10");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+
+		idTextBox.setText("");
+		customerNameTextBox.setText("");
+		cycleModelTextBox.setText("");
+		repairIssueTextBox.setText("");
+		appointmentDateTextBox.setText("");
+
+		idTextBox.enterText("1");
+		customerNameTextBox.enterText("Mario Rossi");
+		cycleModelTextBox.enterText("Road Bike");
+		repairIssueTextBox.enterText(" ");
+		appointmentDateTextBox.enterText("2026-06-10");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+
+		idTextBox.setText("");
+		customerNameTextBox.setText("");
+		cycleModelTextBox.setText("");
+		repairIssueTextBox.setText("");
+		appointmentDateTextBox.setText("");
+
+		idTextBox.enterText("1");
+		customerNameTextBox.enterText("Mario Rossi");
+		cycleModelTextBox.enterText("Road Bike");
+		repairIssueTextBox.enterText("Brake adjustment");
+		appointmentDateTextBox.enterText(" ");
+		window.button(JButtonMatcher.withText("Add")).requireDisabled();
+	}
+
+	@Test
 	public void testsShowAllAppointmentsShouldAddAppointmentDescriptionsToTheList() {
 		Appointment appointment1 = new Appointment("1", "Mario Rossi", "Road Bike",
 				"Brake adjustment", "2026-06-10");

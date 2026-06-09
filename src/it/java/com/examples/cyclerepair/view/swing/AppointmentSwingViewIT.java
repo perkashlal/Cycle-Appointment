@@ -135,4 +135,20 @@ public class AppointmentSwingViewIT extends AssertJSwingJUnitTestCase {
 		assertThat(window.list().contents())
 			.isEmpty();
 	}
+
+	@Test @GUITest
+	public void testDeleteButtonError() {
+		// manually add an appointment to the list, which will not be in the db
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		GuiActionRunner.execute(
+			() -> appointmentSwingView.getListAppointmentsModel().addElement(appointment));
+		window.list().selectItem(0);
+		window.button(JButtonMatcher.withText("Delete Selected")).click();
+		assertThat(window.list().contents())
+			.isEmpty();
+		window.label("errorMessageLabel")
+			.requireText("No existing appointment with id 1: "
+					+ "1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10");
+	}
 }

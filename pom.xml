@@ -21,6 +21,7 @@
 		<mongo.java.server.version>1.39.0</mongo.java.server.version>
 		<testcontainers.version>1.21.4</testcontainers.version>
 		<picocli.version>4.7.7</picocli.version>
+		<pitest.maven.plugin.version>1.17.2</pitest.maven.plugin.version>
 
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
 
@@ -230,6 +231,43 @@
 								<goals>
 									<goal>prepare-agent</goal>
 									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>pit</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-maven</artifactId>
+						<version>${pitest.maven.plugin.version}</version>
+						<configuration>
+							<targetClasses>
+								<param>com.examples.cyclerepair.controller.*</param>
+								<param>com.examples.cyclerepair.repository.mongo.*</param>
+							</targetClasses>
+							<targetTests>
+								<param>com.examples.cyclerepair.controller.*Test</param>
+								<param>com.examples.cyclerepair.controller.*IT</param>
+								<param>com.examples.cyclerepair.repository.mongo.*Test</param>
+								<param>com.examples.cyclerepair.repository.mongo.*IT</param>
+							</targetTests>
+							<parseSurefireConfig>false</parseSurefireConfig>
+							<excludedClasses>
+								<param>com.examples.cyclerepair.model.*</param>
+								<param>com.examples.cyclerepair.app.swing.CycleRepairSwingApp</param>
+							</excludedClasses>
+							<timestampedReports>false</timestampedReports>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>mutationCoverage</goal>
 								</goals>
 							</execution>
 						</executions>

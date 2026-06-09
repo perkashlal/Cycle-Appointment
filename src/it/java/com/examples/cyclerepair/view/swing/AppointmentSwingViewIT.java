@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.net.InetSocketAddress;
 
 import org.assertj.swing.annotation.GUITest;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
@@ -91,5 +92,17 @@ public class AppointmentSwingViewIT extends AssertJSwingJUnitTestCase {
 			.containsExactly(
 					"1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10",
 					"2 - Luigi Bianchi - City Bike - Flat tyre - 2026-06-11");
+	}
+
+	@Test @GUITest
+	public void testAddButtonSuccess() {
+		window.textBox("idTextBox").enterText("1");
+		window.textBox("customerNameTextBox").enterText("Mario Rossi");
+		window.textBox("cycleModelTextBox").enterText("Road Bike");
+		window.textBox("repairIssueTextBox").enterText("Brake adjustment");
+		window.textBox("appointmentDateTextBox").enterText("2026-06-10");
+		window.button(JButtonMatcher.withText("Add")).click();
+		assertThat(window.list().contents())
+			.containsExactly("1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10");
 	}
 }

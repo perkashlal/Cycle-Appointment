@@ -60,4 +60,12 @@ public class CycleRepairControllerIT {
 			.showAllAppointments(asList(appointment));
 	}
 
+	@Test
+	public void testNewAppointment() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		cycleRepairController.newAppointment(appointment);
+		verify(appointmentView).appointmentAdded(appointment);
+	}
+
 }

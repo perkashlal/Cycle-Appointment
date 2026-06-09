@@ -253,7 +253,6 @@
 							</targetClasses>
 							<targetTests>
 								<param>com.examples.cyclerepair.controller.*Test</param>
-								<param>com.examples.cyclerepair.controller.*IT</param>
 								<param>com.examples.cyclerepair.repository.mongo.*Test</param>
 								<param>com.examples.cyclerepair.repository.mongo.*IT</param>
 							</targetTests>

@@ -68,4 +68,13 @@ public class CycleRepairControllerIT {
 		verify(appointmentView).appointmentAdded(appointment);
 	}
 
+	@Test
+	public void testDeleteAppointment() {
+		Appointment appointmentToDelete = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		appointmentRepository.save(appointmentToDelete);
+		cycleRepairController.deleteAppointment(appointmentToDelete);
+		verify(appointmentView).appointmentRemoved(appointmentToDelete);
+	}
+
 }

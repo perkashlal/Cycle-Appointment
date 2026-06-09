@@ -5,6 +5,8 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 
+import javax.swing.DefaultListModel;
+
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
@@ -98,7 +100,7 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
 				"Brake adjustment", "2026-06-10");
 		GuiActionRunner.execute(
-			() -> appointmentSwingView.showAllAppointments(Arrays.asList(appointment))
+			() -> appointmentSwingView.getListAppointmentsModel().addElement(appointment)
 		);
 		window.list("appointmentList").selectItem(0);
 		JButtonFixture deleteButton = window.button(JButtonMatcher.withText("Delete Selected"));
@@ -142,8 +144,12 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		Appointment appointment2 = new Appointment("2", "Luigi Bianchi", "City Bike",
 				"Flat tyre", "2026-06-11");
 		GuiActionRunner.execute(
-			() -> appointmentSwingView.showAllAppointments(
-					Arrays.asList(appointment1, appointment2))
+			() -> {
+				DefaultListModel<Appointment> listAppointmentsModel =
+						appointmentSwingView.getListAppointmentsModel();
+				listAppointmentsModel.addElement(appointment1);
+				listAppointmentsModel.addElement(appointment2);
+			}
 		);
 		GuiActionRunner.execute(
 			() -> appointmentSwingView.showErrorAppointmentNotFound("error message", appointment1)
@@ -174,8 +180,12 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		Appointment appointment2 = new Appointment("2", "Luigi Bianchi", "City Bike",
 				"Flat tyre", "2026-06-11");
 		GuiActionRunner.execute(
-			() -> appointmentSwingView.showAllAppointments(
-					Arrays.asList(appointment1, appointment2))
+			() -> {
+				DefaultListModel<Appointment> listAppointmentsModel =
+						appointmentSwingView.getListAppointmentsModel();
+				listAppointmentsModel.addElement(appointment1);
+				listAppointmentsModel.addElement(appointment2);
+			}
 		);
 		GuiActionRunner.execute(
 			() -> appointmentSwingView.appointmentRemoved(appointment1)
@@ -205,8 +215,12 @@ public class AppointmentSwingViewTest extends AssertJSwingJUnitTestCase {
 		Appointment appointment2 = new Appointment("2", "Luigi Bianchi", "City Bike",
 				"Flat tyre", "2026-06-11");
 		GuiActionRunner.execute(
-			() -> appointmentSwingView.showAllAppointments(
-					Arrays.asList(appointment1, appointment2))
+			() -> {
+				DefaultListModel<Appointment> listAppointmentsModel =
+						appointmentSwingView.getListAppointmentsModel();
+				listAppointmentsModel.addElement(appointment1);
+				listAppointmentsModel.addElement(appointment2);
+			}
 		);
 		window.list("appointmentList").selectItem(1);
 		window.button(JButtonMatcher.withText("Delete Selected")).click();

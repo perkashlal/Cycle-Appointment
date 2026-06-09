@@ -46,6 +46,10 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	private transient CycleRepairController cycleRepairController;
 
+	DefaultListModel<Appointment> getListAppointmentsModel() {
+		return listAppointmentsModel;
+	}
+
 	public void setCycleRepairController(CycleRepairController cycleRepairController) {
 		this.cycleRepairController = cycleRepairController;
 	}

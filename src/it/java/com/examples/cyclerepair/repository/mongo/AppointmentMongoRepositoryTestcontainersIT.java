@@ -1,5 +1,9 @@
 package com.examples.cyclerepair.repository.mongo;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.bson.Document;
@@ -71,6 +75,15 @@ public class AppointmentMongoRepositoryTestcontainersIT {
 					"Flat tyre", "2026-06-11"));
 	}
 
+	@Test
+	public void testSave() {
+		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
+				"Brake adjustment", "2026-06-10");
+		appointmentRepository.save(appointment);
+		assertThat(readAllAppointmentsFromDatabase())
+			.containsExactly(appointment);
+	}
+
 	private void addTestAppointmentToDatabase(String id, String customerName, String cycleModel,
 			String repairIssue, String appointmentDate) {
 		appointmentCollection.insertOne(
@@ -80,5 +93,14 @@ public class AppointmentMongoRepositoryTestcontainersIT {
 					.append("cycleModel", cycleModel)
 					.append("repairIssue", repairIssue)
 					.append("appointmentDate", appointmentDate));
+	}
+
+	private List<Appointment> readAllAppointmentsFromDatabase() {
+		return StreamSupport.
+			stream(appointmentCollection.find().spliterator(), false)
+				.map(d -> new Appointment(""+d.get("id"), ""+d.get("customerName"),
+						""+d.get("cycleModel"), ""+d.get("repairIssue"),
+						""+d.get("appointmentDate")))
+				.collect(Collectors.toList());
 	}
 }

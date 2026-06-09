@@ -105,4 +105,21 @@ public class AppointmentSwingViewIT extends AssertJSwingJUnitTestCase {
 		assertThat(window.list().contents())
 			.containsExactly("1 - Mario Rossi - Road Bike - Brake adjustment - 2026-06-10");
 	}
+
+	@Test @GUITest
+	public void testAddButtonError() {
+		appointmentRepository.save(new Appointment("1", "Existing Customer", "City Bike",
+				"Flat tyre", "2026-06-11"));
+		window.textBox("idTextBox").enterText("1");
+		window.textBox("customerNameTextBox").enterText("Mario Rossi");
+		window.textBox("cycleModelTextBox").enterText("Road Bike");
+		window.textBox("repairIssueTextBox").enterText("Brake adjustment");
+		window.textBox("appointmentDateTextBox").enterText("2026-06-10");
+		window.button(JButtonMatcher.withText("Add")).click();
+		assertThat(window.list().contents())
+			.isEmpty();
+		window.label("errorMessageLabel")
+			.requireText("Already existing appointment with id 1: "
+					+ "1 - Existing Customer - City Bike - Flat tyre - 2026-06-11");
+	}
 }

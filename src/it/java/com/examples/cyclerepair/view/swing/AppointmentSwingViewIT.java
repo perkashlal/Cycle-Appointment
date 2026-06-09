@@ -68,6 +68,7 @@ public class AppointmentSwingViewIT extends AssertJSwingJUnitTestCase {
 		});
 		window = new FrameFixture(robot(), appointmentSwingView);
 		window.show(); // shows the frame to test
+		window.focus();
 	}
 
 	@Override

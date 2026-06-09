@@ -3,10 +3,13 @@ package com.examples.cyclerepair.view.swing;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.swing.launcher.ApplicationLauncher.application;
 
+import java.util.regex.Pattern;
+
 import javax.swing.JFrame;
 
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.GenericTypeMatcher;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
@@ -18,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.testcontainers.containers.MongoDBContainer;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.model.Filters;
 
 @RunWith(GUITestRunner.class)
 public class CycleRepairSwingAppE2E // NOSONAR we want the name this way
@@ -75,6 +79,7 @@ public class CycleRepairSwingAppE2E // NOSONAR we want the name this way
 				return "Appointment View".equals(frame.getTitle()) && frame.isShowing();
 			}
 		}).using(robot());
+		window.focus();
 	}
 
 	@Override
@@ -91,6 +96,54 @@ public class CycleRepairSwingAppE2E // NOSONAR we want the name this way
 					APPOINTMENT_FIXTURE_2_CUSTOMER_NAME));
 	}
 
+	@Test @GUITest
+	public void testAddButtonSuccess() {
+		window.textBox("idTextBox").enterText("10");
+		window.textBox("customerNameTextBox").enterText("New Customer");
+		window.textBox("cycleModelTextBox").enterText("Gravel Bike");
+		window.textBox("repairIssueTextBox").enterText("Gear tuning");
+		window.textBox("appointmentDateTextBox").enterText("2026-06-12");
+		window.button(JButtonMatcher.withText("Add")).click();
+		assertThat(window.list().contents())
+			.anySatisfy(e -> assertThat(e).contains("10", "New Customer",
+					"Gravel Bike", "Gear tuning", "2026-06-12"));
+	}
+
+	@Test @GUITest
+	public void testAddButtonError() {
+		window.textBox("idTextBox").enterText(APPOINTMENT_FIXTURE_1_ID);
+		window.textBox("customerNameTextBox").enterText("New Customer");
+		window.textBox("cycleModelTextBox").enterText("Gravel Bike");
+		window.textBox("repairIssueTextBox").enterText("Gear tuning");
+		window.textBox("appointmentDateTextBox").enterText("2026-06-12");
+		window.button(JButtonMatcher.withText("Add")).click();
+		assertThat(window.label("errorMessageLabel").text())
+			.contains(APPOINTMENT_FIXTURE_1_ID, APPOINTMENT_FIXTURE_1_CUSTOMER_NAME);
+	}
+
+	@Test @GUITest
+	public void testDeleteButtonSuccess() {
+		window.list("appointmentList")
+			.selectItem(Pattern.compile(".*" + APPOINTMENT_FIXTURE_1_CUSTOMER_NAME + ".*"));
+		window.button(JButtonMatcher.withText("Delete Selected")).click();
+		assertThat(window.list().contents())
+			.noneMatch(e -> e.contains(APPOINTMENT_FIXTURE_1_CUSTOMER_NAME));
+	}
+
+	@Test @GUITest
+	public void testDeleteButtonError() {
+		// select the appointment in the list...
+		window.list("appointmentList")
+			.selectItem(Pattern.compile(".*" + APPOINTMENT_FIXTURE_1_CUSTOMER_NAME + ".*"));
+		// ... in the meantime, manually remove the appointment from the database
+		removeTestAppointmentFromDatabase(APPOINTMENT_FIXTURE_1_ID);
+		// now press the delete button
+		window.button(JButtonMatcher.withText("Delete Selected")).click();
+		// and verify an error is shown
+		assertThat(window.label("errorMessageLabel").text())
+			.contains(APPOINTMENT_FIXTURE_1_ID, APPOINTMENT_FIXTURE_1_CUSTOMER_NAME);
+	}
+
 	private void addTestAppointmentToDatabase(String id, String customerName, String cycleModel,
 			String repairIssue, String appointmentDate) {
 		mongoClient
@@ -103,5 +156,12 @@ public class CycleRepairSwingAppE2E // NOSONAR we want the name this way
 					.append("cycleModel", cycleModel)
 					.append("repairIssue", repairIssue)
 					.append("appointmentDate", appointmentDate));
+	}
+
+	private void removeTestAppointmentFromDatabase(String id) {
+		mongoClient
+			.getDatabase(DB_NAME)
+			.getCollection(COLLECTION_NAME)
+			.deleteOne(Filters.eq("id", id));
 	}
 }

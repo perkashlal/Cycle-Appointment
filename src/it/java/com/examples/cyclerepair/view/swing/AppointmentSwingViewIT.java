@@ -122,4 +122,17 @@ public class AppointmentSwingViewIT extends AssertJSwingJUnitTestCase {
 			.requireText("Already existing appointment with id 1: "
 					+ "1 - Existing Customer - City Bike - Flat tyre - 2026-06-11");
 	}
+
+	@Test @GUITest
+	public void testDeleteButtonSuccess() {
+		// use the controller to populate the view's list...
+		GuiActionRunner.execute(
+			() -> cycleRepairController.newAppointment(new Appointment("1", "Mario Rossi",
+					"Road Bike", "Brake adjustment", "2026-06-10")));
+		// ...with an appointment to select
+		window.list().selectItem(0);
+		window.button(JButtonMatcher.withText("Delete Selected")).click();
+		assertThat(window.list().contents())
+			.isEmpty();
+	}
 }

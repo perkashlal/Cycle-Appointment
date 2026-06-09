@@ -22,8 +22,11 @@
 		<testcontainers.version>1.21.4</testcontainers.version>
 		<picocli.version>4.7.7</picocli.version>
 		<pitest.maven.plugin.version>1.17.2</pitest.maven.plugin.version>
+		<coveralls.maven.plugin.version>5.1.0</coveralls.maven.plugin.version>
 
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>perkashlal</sonar.organization>
+		<sonar.projectKey>perkashlal_Cycle-Appointment</sonar.projectKey>
 
 		<sonar.issue.ignore.multicriteria>e11,e12</sonar.issue.ignore.multicriteria>
 		<sonar.issue.ignore.multicriteria.e11.ruleKey>
@@ -49,6 +52,10 @@
 			${project.build.directory}/surefire-reports,
 			${project.build.directory}/failsafe-reports
 		</sonar.junit.reportPaths>
+
+		<sonar.coverage.jacoco.xmlReportPaths>
+			${project.build.directory}/site/jacoco/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
 
 		<sonar.coverage.exclusions>
 			**/model/*.*,
@@ -117,6 +124,14 @@
 					<groupId>org.sonarsource.scanner.maven</groupId>
 					<artifactId>sonar-maven-plugin</artifactId>
 					<version>5.6.0.6792</version>
+				</plugin>
+				<plugin>
+					<groupId>com.github.hazendaz.maven</groupId>
+					<artifactId>coveralls-maven-plugin</artifactId>
+					<version>${coveralls.maven.plugin.version}</version>
+					<configuration>
+						<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -230,6 +245,44 @@
 							<execution>
 								<goals>
 									<goal>prepare-agent</goal>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>coveralls</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.8.14</version>
+						<configuration>
+							<excludes>
+								<exclude>**/model/*.*</exclude>
+								<exclude>**/CycleRepairSwingApp.*</exclude>
+							</excludes>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>prepare-agent</goal>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.github.hazendaz.maven</groupId>
+						<artifactId>coveralls-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
 									<goal>report</goal>
 								</goals>
 							</execution>

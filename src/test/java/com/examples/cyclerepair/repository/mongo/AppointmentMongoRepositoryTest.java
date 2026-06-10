@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.InetSocketAddress;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.bson.Document;
@@ -133,6 +132,6 @@ public class AppointmentMongoRepositoryTest {
 				.map(d -> new Appointment(""+d.get("id"), ""+d.get("customerName"),
 						""+d.get("cycleModel"), ""+d.get("repairIssue"),
 						""+d.get("appointmentDate")))
-				.collect(Collectors.toList());
+				.toList();
 	}
 }

@@ -1,7 +1,6 @@
 package com.examples.cyclerepair.repository.mongo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.bson.Document;
@@ -27,7 +26,7 @@ public class AppointmentMongoRepository implements AppointmentRepository {
 		return StreamSupport.
 				stream(appointmentCollection.find().spliterator(), false)
 				.map(this::fromDocumentToAppointment)
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private Appointment fromDocumentToAppointment(Document d) {

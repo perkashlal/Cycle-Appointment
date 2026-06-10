@@ -242,7 +242,7 @@ public class AppointmentSwingView extends JFrame implements AppointmentView {
 
 	@Override
 	public void showAllAppointments(List<Appointment> appointments) {
-		appointments.stream().forEach(listAppointmentsModel::addElement);
+		appointments.forEach(listAppointmentsModel::addElement);
 	}
 
 	@Override

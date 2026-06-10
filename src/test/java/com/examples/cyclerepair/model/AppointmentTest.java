@@ -11,8 +11,8 @@ public class AppointmentTest {
 		Appointment appointment = new Appointment("1", "Mario Rossi", "Road Bike",
 				"Brake adjustment", "2026-06-10");
 
-		assertThat(appointment.toString())
-			.isEqualTo("Appointment [id=1, customerName=Mario Rossi, cycleModel=Road Bike, "
+		assertThat(appointment)
+			.hasToString("Appointment [id=1, customerName=Mario Rossi, cycleModel=Road Bike, "
 					+ "repairIssue=Brake adjustment, appointmentDate=2026-06-10]");
 	}
 
@@ -34,7 +34,7 @@ public class AppointmentTest {
 		Appointment sameAppointment = new Appointment("1", "Mario Rossi", "Road Bike",
 				"Brake adjustment", "2026-06-10");
 
-		assertThat(appointment.hashCode())
-			.isEqualTo(sameAppointment.hashCode());
+		assertThat(appointment)
+			.hasSameHashCodeAs(sameAppointment);
 	}
 }

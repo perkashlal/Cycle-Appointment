@@ -1,7 +1,6 @@
 package com.examples.cyclerepair.repository.mongo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -110,6 +109,6 @@ public class AppointmentMongoRepositoryTestcontainersIT {
 				.map(d -> new Appointment(""+d.get("id"), ""+d.get("customerName"),
 						""+d.get("cycleModel"), ""+d.get("repairIssue"),
 						""+d.get("appointmentDate")))
-				.collect(Collectors.toList());
+				.toList();
 	}
 }

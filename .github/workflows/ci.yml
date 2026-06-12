@@ -14,7 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        # Shallow clones disabled for a better relevancy of SonarQube analysis
         fetch-depth: 0
     - name: Set up JDK
       uses: actions/setup-java@v5
